@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.static(__dirname));
 
 app.get("/opened/:emailMessageId", (req, res) => {
-  let uniqueId = req.params?.emailMessageId;
+  let uniqueId = decodeURI(req.params?.emailMessageId);
   console.log("image fetched on message: ", uniqueId);
 
   res.sendFile(path.join(__dirname, "tracker.jpg"));
