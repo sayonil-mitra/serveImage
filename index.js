@@ -15,7 +15,7 @@ app.get("/opened/:emailMessageId", (req, res) => {
 
   res.sendFile(path.join(__dirname, "tracker.jpg"));
 
-  if (!emailOpenRecords.has(uniqueId)) {
+  if (emailOpenRecords.has(uniqueId)) {
     emailOpenRecords.set(uniqueId, true);
   }
 });
@@ -23,6 +23,13 @@ app.get("/opened/:emailMessageId", (req, res) => {
 app.get("/check/open", (req, res) => {
   res.json(Object.fromEntries(emailOpenRecords));
   res.end();
+});
+
+app.get("/record_send/:uniqueId", (req, res) => {
+  let uniqueId = req.params?.emailMessageId;
+  if (!emailOpenRecords.has(uniqueId)) {
+    emailOpenRecords.set(uniqueId, false);
+  }
 });
 
 app.listen(port, () => console.log("backend running"));
