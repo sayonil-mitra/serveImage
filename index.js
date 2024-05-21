@@ -11,7 +11,8 @@ app.use(cors());
 app.use(express.static(__dirname));
 
 app.get("/check/open", (req, res) => {
-  res.json(Object.fromEntries(emailOpenRecords));
+  res.end(`email Opened: ${emailOpened}`);
+  //   res.json(Object.fromEntries(emailOpenRecords));
 });
 
 app.get("/opened", (req, res) => {
