@@ -14,7 +14,6 @@ app.get("/opened/:emailMessageId", (req, res) => {
   console.log("image fetched on message: ", uniqueId);
 
   res.sendFile(path.join(__dirname, "tracker.jpg"));
-  console.log("emailOpened", emailOpened);
 
   if (!emailOpenRecords.has(uniqueId)) {
     emailOpenRecords.set(uniqueId, true);
