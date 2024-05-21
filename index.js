@@ -11,11 +11,13 @@ app.use(cors());
 app.use(express.static(__dirname));
 
 app.get("/check/open", (req, res) => {
-  res.end(`email Opened: ${emailOpened}`);
+  res.end(JSOn.stringify(`email Opened: ${emailOpened}`));
   //   res.json(Object.fromEntries(emailOpenRecords));
 });
 
 app.get("/opened", (req, res) => {
+  console.log("image fetched");
+  console.log("emailOpened", emailOpened);
   //   let messageId = req.params?.msgId;
   //   if (!emailOpenRecords.has(messageId)) {
   //     emailOpenRecords.set(messageId, 1);
@@ -26,6 +28,7 @@ app.get("/opened", (req, res) => {
   //   res.json(Object.fromEntries(emailOpenRecords));
   res.sendFile(path.join(__dirname, "tracker.jpg"));
   emailOpened = true;
+  console.log("emailOpened", emailOpened);
 });
 
 app.get("/check/open/", (req, res) => {
