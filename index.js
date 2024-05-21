@@ -2,41 +2,28 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const port = 5000;
-// const emailOpenRecords = new Map();
+const emailOpenRecords = new Map();
 const path = require("path");
-let emailOpened = false;
 
 app.use(cors());
 // Middleware to serve static files from the current directory
 app.use(express.static(__dirname));
 
-app.get("/check/open", (req, res) => {
-  res.end(JSOn.stringify(`email Opened: ${emailOpened}`));
-  //   res.json(Object.fromEntries(emailOpenRecords));
-});
+app.get("/opened/:emailMessageId", (req, res) => {
+  let uniqueId = req.params?.emailMessageId;
+  console.log("image fetched on message: ", uniqueId);
 
-app.get("/opened", (req, res) => {
-  console.log("image fetched");
-  console.log("emailOpened", emailOpened);
-  //   let messageId = req.params?.msgId;
-  //   if (!emailOpenRecords.has(messageId)) {
-  //     emailOpenRecords.set(messageId, 1);
-  //   } else {
-  //     emailOpenRecords.set(messageId, emailOpenRecords.get(messageId) + 1);
-  //   }
-  //   console.log(emailOpenRecords);
-  //   res.json(Object.fromEntries(emailOpenRecords));
   res.sendFile(path.join(__dirname, "tracker.jpg"));
-  emailOpened = true;
   console.log("emailOpened", emailOpened);
+
+  if (!emailOpenRecords.has(uniqueId)) {
+    emailOpenRecords.set(uniqueId, true);
+  }
 });
 
-app.get("/check/open/", (req, res) => {
-  //   let messageId = req.params.id;
-  //   if (emailOpenRecords.has(messageId)) {
-  //     emailOpenRecords.get(messageId);
-  //   }
-  res.end(emailOpened);
+app.get("/check/open", (req, res) => {
+  res.json(Object.fromEntries(emailOpenRecords));
+  res.end();
 });
 
 app.listen(port, () => console.log("backend running"));
