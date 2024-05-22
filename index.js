@@ -20,15 +20,20 @@ app.get("/opened/:emailMessageId", (req, res) => {
   }
 });
 
+app.get("/opened", (req, res) => {
+  res.sendFile(path.join(__dirname, "tracker.jpg"));
+});
+
 app.get("/check/open", (req, res) => {
   res.json(Object.fromEntries(emailOpenRecords));
   res.end();
 });
 
-app.get("/record_send/:uniqueId", (req, res) => {
-  let uniqueId = req.params?.emailMessageId;
+app.get("/record_send/:email/:uniqueId", (req, res) => {
+  let uniqueId = req.params.uniqueId;
+  let email = decodeURI(req.params.email);
   if (!emailOpenRecords.has(uniqueId)) {
-    emailOpenRecords.set(uniqueId, false);
+    emailOpenRecords.set(`${email}-${uniqueId}`, false);
   }
 });
 
