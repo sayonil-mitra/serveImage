@@ -28,8 +28,20 @@ app.get("/opened", (req, res) => {
 
 // check status of all emails sent
 app.get("/check/open", (req, res) => {
-  res.json(Object.fromEntries(emailOpenRecords));
-  res.end();
+  let responseArray = [];
+
+  emailOpenRecords.forEach((value, key) => {
+    let tempstring = key?.split("-");
+    responseArray.push({
+      email: tempstring[0],
+      id: tempstring[1],
+      emailOpened: value,
+    });
+  });
+
+  // send api response
+  res.setHeader("Content-Type", "application/json");
+  res.end(responseArray);
 });
 
 // Record which email has been sent
