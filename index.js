@@ -31,7 +31,7 @@ app.get("/check/open", (req, res) => {
   let responseArray = [];
 
   emailOpenRecords.forEach((value, key) => {
-    let tempstring = key?.split("-");
+    let tempstring = key?.split("__");
     responseArray.push({
       email: tempstring[0],
       id: tempstring[1],
