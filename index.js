@@ -10,17 +10,15 @@ app.use(cors());
 app.use(express.static(__dirname));
 
 // check email with specific id has been opened by specific user
-app.get("/opened/:email/:uniqueId", (req, res) => {
-  let emailId = decodeURI(req.params?.email);
+app.get("/opened/:uniqueId", (req, res) => {
   let uniqueId = decodeURI(req.params?.uniqueId);
-  console.log(`Email opened. Email: ${emailId}, unique id: ${uniqueId}`);
+  console.log(`Email opened. Unique id: ${uniqueId}`);
 
   res.sendFile(path.join(__dirname, "tracker.jpg"));
-
-  let emailIdentifer = `${emailId}-${uniqueId}`;
-  if (emailOpenRecords.has(emailIdentifer)) {
-    emailOpenRecords.set(emailIdentifer, true);
+  if (emailOpenRecords.has(uniqueId)) {
+    emailOpenRecords.set(uniqueId, true);
   }
+  res.end();
 });
 
 // serve static image
@@ -35,11 +33,11 @@ app.get("/check/open", (req, res) => {
 });
 
 // record which email has been sent
-app.get("/record_send/:email/:uniqueId", (req, res) => {
-  let uniqueId = req.params.uniqueId;
-  let email = decodeURI(req.params.email);
+app.get("/record_send/:uniqueId", (req, res) => {
+  let uniqueId = decodeURI(req.params?.uniqueId);
   if (!emailOpenRecords.has(uniqueId)) {
-    emailOpenRecords.set(`${email}-${uniqueId}`, false);
+    console.log("unique id recorded: ", uniqueId);
+    emailOpenRecords.set(`${uniqueId}`, false);
   }
 });
 
