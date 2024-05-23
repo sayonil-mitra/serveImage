@@ -39,10 +39,8 @@ app.get("/check/open", (req, res) => {
     });
   });
 
-  // send api response
-  res.setHeader("Content-Type", "application/json");
+  // Send API response
   res.json(responseArray);
-  res.end("Records checked successfully");
 });
 
 // Record which email has been sent
