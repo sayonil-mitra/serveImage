@@ -39,6 +39,7 @@ app.get("/record_send/:uniqueId", (req, res) => {
     console.log("unique id recorded: ", uniqueId);
     emailOpenRecords.set(`${uniqueId}`, false);
   }
+  res.end("New entry added");
 });
 
 app.listen(port, () => console.log("backend running"));
