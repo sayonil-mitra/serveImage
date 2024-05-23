@@ -32,7 +32,7 @@ app.get("/check/open", (req, res) => {
   res.end();
 });
 
-// record which email has been sent
+// Record which email has been sent
 app.get("/record_send/:uniqueId", (req, res) => {
   let uniqueId = decodeURI(req.params?.uniqueId);
   if (!emailOpenRecords.has(uniqueId)) {
