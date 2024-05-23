@@ -39,7 +39,7 @@ app.get("/check/open", (req, res) => {
     });
   });
 
-  // Send API response
+  // Send API response.
   res.json(responseArray);
 });
 
