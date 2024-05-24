@@ -53,4 +53,15 @@ app.get("/record_send/:uniqueId", (req, res) => {
   res.end("New entry added");
 });
 
+// Record which email has been sent.
+app.get("/record_click/:uniqueId", (req, res) => {
+  let uniqueId = decodeURI(req.params?.uniqueId);
+  let link = uniqueId.split("__")[2];
+  res.redirect(link);
+  if (!emailOpenRecords.has(uniqueId)) {
+    console.log("unique id recorded: ", uniqueId);
+    emailOpenRecords.set(`${uniqueId}`, false);
+  }
+});
+
 app.listen(port, () => console.log("backend running"));
