@@ -55,7 +55,7 @@ app.get("/record_send/:uniqueId", (req, res) => {
     emailOpenRecords.set(`${uniqueId}`, {
       emailOpened: false,
       hasLink: false,
-      link: link,
+      link: "",
       linkClicked: false,
     });
   }
