@@ -1,29 +1,48 @@
 const express = require("express");
+const path = require("path");
 const cors = require("cors");
+
 const app = express();
 const port = 5000;
 const emailOpenRecords = new Map();
-const path = require("path");
+// key:
+// {
+//       recipient_email: string,
+//       email_opened: boolean,
+//       links_in_email:[
+//         {
+//             url: string,
+//             clicked: boolean
+//         }
+//       ]
+// }
 
 app.use(cors());
+app.use(express.json());
 // Middleware to serve static files from the current directory
 app.use(express.static(__dirname));
 
+// serve static image
+app.get("/image", (req, res) => {
+  res.sendFile(path.join(__dirname, "tracker.jpg"));
+});
+
 // check email with specific id has been opened by specific user
-app.get("/opened/:uniqueId", (req, res) => {
+app.get("/email_opened/:uniqueId/:recipient_email", (req, res) => {
   let uniqueId = decodeURI(req.params?.uniqueId);
-  console.log(`Email opened. Unique id: ${uniqueId}`);
+  let recipient_email = decodeURI(req.params?.recipient_email);
+  console.log(
+    `Email opened. Unique id: ${uniqueId}, Email id: ${recipient_email}`
+  );
 
   res.sendFile(path.join(__dirname, "tracker.jpg"));
   if (emailOpenRecords.has(uniqueId)) {
-    emailOpenRecords.set(uniqueId, true);
+    emailOpenRecords.set(uniqueId, {
+      ...emailOpenRecords.get(uniqueId),
+      email_opened: true,
+    });
   }
   res.end();
-});
-
-// serve static image
-app.get("/opened", (req, res) => {
-  res.sendFile(path.join(__dirname, "tracker.jpg"));
 });
 
 // check status of all emails sent
@@ -31,15 +50,12 @@ app.get("/check/open", (req, res) => {
   let responseArray = [];
 
   emailOpenRecords.forEach((value, key) => {
-    let tempstring = key?.split("__");
     let formattedData = {
-      email: tempstring[0],
-      id: tempstring[1],
-      emailOpened: value,
+      email: emailOpenRecords.get(key)?.recipient_email,
+      id: key,
+      email_opened: emailOpenRecords.get(key?.email_opened),
+      links_in_email: [...emailOpenRecords.get(key)?.links_in_email],
     };
-    if (tempstring?.length > 2) {
-      formattedData;
-    }
     responseArray.push(formattedData);
   });
 
@@ -48,43 +64,50 @@ app.get("/check/open", (req, res) => {
 });
 
 // Record which email has been sent.
-app.get("/record_send/:uniqueId", (req, res) => {
-  let uniqueId = decodeURI(req.params?.uniqueId);
+app.post("/record_email_send", (req, res) => {
+  let reqBody = req?.body;
+  let recipient_email = reqBody?.recipient_email;
+  let uniqueId = reqBody?.uniqueId;
+  let links_in_email = reqBody?.links_in_email?.map((item) => {
+    return {
+      url: item,
+      clicked: false,
+    };
+  });
+
   if (!emailOpenRecords.has(uniqueId)) {
-    console.log("unique id recorded: ", uniqueId);
-    emailOpenRecords.set(`${uniqueId}`, {
-      emailOpened: false,
-      hasLink: false,
-      link: "",
-      linkClicked: false,
+    emailOpenRecords.set(uniqueId, {
+      recipient_email: recipient_email,
+      email_opened: false,
+      links_in_email: links_in_email,
     });
   }
   res.end("New entry added");
 });
 
 // Record which email has been sent.
-app.get("/record_click/:Id", (req, res) => {
-  let parsedData = decodeURI(req.params?.Id).split("__"); // id will be like: email__uniqueId__url
+app.get("/record_click/:Id/:clickable_link", (req, res) => {
+  let uniqueId = decodeURI(req.params?.Id);
+  let clickable_link = decodeURI(req.params?.clickable_link);
 
-  let email = parsedData[0];
-  let uniqueId = parsedData[1];
-  let link = parsedData[2];
+  let email = emailOpenRecords.get(uniqueId)?.recipient_email;
 
-  if (emailOpenRecords.has(`${email}__${uniqueId}`)) {
+  if (emailOpenRecords.has(uniqueId)) {
     console.log(`click on link recorded. Email: ${email}, Id: ${uniqueId}`);
-    emailOpenRecords.set(`${email}__${uniqueId}`, {
-      emailOpened: true,
-      hasLink: true,
-      link: link,
-      linkClicked: false,
+
+    emailOpenRecords.set(uniqueId, {
+      ...emailOpenRecords.get(uniqueId),
+      links_in_email: [
+        ...emailOpenRecords.get(uniqueId)?.links_in_email,
+        {
+          url: clickable_link,
+          clicked: true,
+        },
+      ],
     });
   }
 
   res.redirect(link);
 });
 
-app.get("/test", (req, res) => {
-  console.log("script in email working");
-});
-
-app.listen(port, () => console.log("backend running"));
+app.listen(port, () => console.log("backend running on port:", port));
