@@ -51,10 +51,10 @@ app.get("/check/open", (req, res) => {
 
   emailOpenRecords.forEach((value, key) => {
     let formattedData = {
-      email: emailOpenRecords.get(key)?.recipient_email,
+      email: value?.recipient_email,
       id: key,
-      email_opened: emailOpenRecords.get(key?.email_opened),
-      links_in_email: [...emailOpenRecords.get(key)?.links_in_email],
+      email_opened: value?.email_opened,
+      links_in_email: value?.links_in_email,
     };
     responseArray.push(formattedData);
   });
