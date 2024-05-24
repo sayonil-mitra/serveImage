@@ -32,11 +32,15 @@ app.get("/check/open", (req, res) => {
 
   emailOpenRecords.forEach((value, key) => {
     let tempstring = key?.split("__");
-    responseArray.push({
+    let formattedData = {
       email: tempstring[0],
       id: tempstring[1],
       emailOpened: value,
-    });
+    };
+    if (tempstring?.length > 2) {
+      formattedData;
+    }
+    responseArray.push(formattedData);
   });
 
   // Send API response.
@@ -48,20 +52,39 @@ app.get("/record_send/:uniqueId", (req, res) => {
   let uniqueId = decodeURI(req.params?.uniqueId);
   if (!emailOpenRecords.has(uniqueId)) {
     console.log("unique id recorded: ", uniqueId);
-    emailOpenRecords.set(`${uniqueId}`, false);
+    emailOpenRecords.set(`${uniqueId}`, {
+      emailOpened: false,
+      hasLink: false,
+      link: link,
+      linkClicked: false,
+    });
   }
   res.end("New entry added");
 });
 
 // Record which email has been sent.
-app.get("/record_click/:uniqueId", (req, res) => {
-  let uniqueId = decodeURI(req.params?.uniqueId);
-  let link = uniqueId.split("__")[2];
-  res.redirect(link);
-  if (!emailOpenRecords.has(uniqueId)) {
-    console.log("unique id recorded: ", uniqueId);
-    emailOpenRecords.set(`${uniqueId}`, false);
+app.get("/record_click/:Id", (req, res) => {
+  let parsedData = decodeURI(req.params?.Id).split("__"); // id will be like: email__uniqueId__url
+
+  let email = parsedData[0];
+  let uniqueId = parsedData[1];
+  let link = parsedData[2];
+
+  if (emailOpenRecords.has(`${email}__${uniqueId}`)) {
+    console.log(`click on link recorded. Email: ${email}, Id: ${uniqueId}`);
+    emailOpenRecords.set(`${email}__${uniqueId}`, {
+      emailOpened: true,
+      hasLink: true,
+      link: link,
+      linkClicked: false,
+    });
   }
+
+  res.redirect(link);
+});
+
+app.get("/test", (req, res) => {
+  console.log("script in email working");
 });
 
 app.listen(port, () => console.log("backend running"));
