@@ -88,11 +88,11 @@ app.post("/record_email_send", (req, res) => {
 // Record which email has been sent.
 app.get("/record_click/:Id/:clickable_link", (req, res) => {
   let uniqueId = decodeURI(req.params?.Id);
-  let clickable_link = decodeURI(req.params?.clickable_link);
+  let clickable_link = decodeURIComponent(req.params?.clickable_link);
 
   let email = emailOpenRecords.get(uniqueId)?.recipient_email;
 
-  if (emailOpenRecords.has(uniqueId)) {
+  if (!emailOpenRecords.has(uniqueId)) {
     console.log(`click on link recorded. Email: ${email}, Id: ${uniqueId}`);
 
     emailOpenRecords.set(uniqueId, {
@@ -106,8 +106,8 @@ app.get("/record_click/:Id/:clickable_link", (req, res) => {
       ],
     });
   }
-
-  res.redirect(link);
+  //   res.end();
+  res.redirect(clickable_link);
 });
 
 app.listen(port, () => console.log("backend running on port:", port));
