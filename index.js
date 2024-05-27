@@ -92,7 +92,7 @@ app.get("/record_click/:Id/:clickable_link", (req, res) => {
 
   let email = emailOpenRecords.get(uniqueId)?.recipient_email;
 
-  if (!emailOpenRecords.has(uniqueId)) {
+  if (emailOpenRecords.has(uniqueId)) {
     console.log(`click on link recorded. Email: ${email}, Id: ${uniqueId}`);
 
     emailOpenRecords.set(uniqueId, {
@@ -106,7 +106,6 @@ app.get("/record_click/:Id/:clickable_link", (req, res) => {
       ],
     });
   }
-  //   res.end();
   res.redirect(clickable_link);
 });
 
