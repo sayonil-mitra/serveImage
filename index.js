@@ -5,17 +5,6 @@ const cors = require("cors");
 const app = express();
 const port = 5000;
 const emailOpenRecords = new Map();
-// key:
-// {
-//       recipient_email: string,
-//       email_opened: boolean,
-//       links_in_email:[
-//         {
-//             url: string,
-//             clicked: boolean
-//         }
-//       ]
-// }
 
 app.use(cors());
 app.use(express.json());
