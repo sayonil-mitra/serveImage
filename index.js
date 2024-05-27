@@ -97,16 +97,20 @@ app.get("/record_click/:Id/:clickable_link", (req, res) => {
 
     emailOpenRecords.set(uniqueId, {
       ...emailOpenRecords.get(uniqueId),
-      links_in_email: [
-        ...emailOpenRecords.get(uniqueId)?.links_in_email,
-        {
-          url: clickable_link,
-          clicked: true,
-        },
-      ],
+    links_in_email: emailOpenRecords.get(uniqueId)?.links_in_email?.map((item)=>{
+        if (item?.url===clickable_link) {
+            return {
+                url:clickable_link,
+                clicked: true,
+            }
+        } else {
+            return item
+        }
+    })
     });
   }
-  res.redirect(clickable_link);
+  //   res.redirect(clickable_link);
+  res.end("===");
 });
 
 app.listen(port, () => console.log("backend running on port:", port));
