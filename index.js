@@ -109,8 +109,8 @@ app.get("/record_click/:Id/:clickable_link", (req, res) => {
     })
     });
   }
-  //   res.redirect(clickable_link);
-  res.end("===");
+    res.redirect(clickable_link);
+//   res.end("===");
 });
 
 app.listen(port, () => console.log("backend running on port:", port));
