@@ -108,6 +108,7 @@ app.get("/check/open", (req, res) => {
     let formattedData = {
       email: value?.recipient_email,
       id: key,
+      campaign_id: value?.campaign_id,
       email_opened: value?.email_opened,
       links_in_email: value?.links_in_email,
     };
