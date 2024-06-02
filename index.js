@@ -29,7 +29,7 @@ app.get("/image", (req, res) => {
 });
 
 // Record which email has been sent.
-app.post("/record_email_send", (req, res) => {
+app.post("/record_email_send", async (req, res) => {
   let reqBody = req?.body;
   let recipient_email = reqBody?.recipient_email;
   let uniqueId = reqBody?.unique_id;
@@ -49,7 +49,10 @@ app.post("/record_email_send", (req, res) => {
       links_in_email: links_in_email,
     });
   }
-  res.end("New entry added");
+
+  // generate encrypted token
+  let encryptedToken = await encryptToken();
+  res.end(encryptedToken);
 });
 
 // check email with specific id has been opened by specific user
