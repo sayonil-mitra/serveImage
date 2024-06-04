@@ -1,6 +1,8 @@
 const express = require("express");
 const path = require("path");
 const cors = require("cors");
+const { sendEmail } = require("./gmailApis");
+const { ensureAccessToken } = require("./generateToken");
 
 const app = express();
 const port = 5000;
@@ -30,6 +32,7 @@ app.get("/image", (req, res) => {
 
 // Record which email has been sent.
 app.post("/record_email_send", async (req, res) => {
+  // parsing request body
   let reqBody = req?.body;
   let recipient_email = reqBody?.recipient_email;
   let uniqueId = reqBody?.unique_id;
@@ -41,6 +44,18 @@ app.post("/record_email_send", async (req, res) => {
     };
   });
 
+  // get token
+  let access_token = await ensureAccessToken();
+
+  // sendingn email via gmail api
+  await sendEmail(
+    recipient_email,
+    access_token,
+    uniqueId,
+    campaignId,
+    links_in_email
+  );
+
   if (!emailOpenRecords.has(uniqueId)) {
     emailOpenRecords.set(uniqueId, {
       recipient_email: recipient_email,
@@ -49,10 +64,6 @@ app.post("/record_email_send", async (req, res) => {
       links_in_email: links_in_email,
     });
   }
-
-  // generate encrypted token
-  let encryptedToken = await encryptToken();
-  res.end(encryptedToken);
 });
 
 // check email with specific id has been opened by specific user

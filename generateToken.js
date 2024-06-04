@@ -44,11 +44,4 @@ async function ensureAccessToken() {
   return oauth2Client.credentials.access_token;
 }
 
-// encrypt oauth token with jwt before sending it to front end
-async function encryptToken() {
-  let token = await ensureAccessToken();
-  let encryptedToken = jwt.sign(token, process.env.JWT_SALT);
-  return encryptedToken;
-}
-
-module.exports = { encryptToken };
+module.exports = { ensureAccessToken };
