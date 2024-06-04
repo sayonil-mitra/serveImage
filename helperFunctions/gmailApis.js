@@ -33,7 +33,7 @@ Content-Type: text/html; charset=UTF-8
       : "") +
     `<img src="${backendServiceUrl}/email_opened/${encodeURIComponent(
       uniqueId
-    )}/${encodeURIComponent(targetEmail)}" style="opacity:0;"></img>
+    )}" style="opacity:0;"></img>
   </body>
 </html>`;
 
