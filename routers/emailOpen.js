@@ -1,6 +1,7 @@
 const express = require("express");
 const { v4: uuidv4 } = require("uuid");
 const mongoose = require("mongoose");
+const path = require("path");
 
 const { sendEmail } = require("../helperFunctions/gmailApis");
 const { ensureAccessToken } = require("../helperFunctions/generateToken");
@@ -34,30 +35,53 @@ emailOpenTrackingRouter.post("/record_email_send", async (req, res) => {
       reqBody?.links_in_email
     );
 
-    // record details of email sent
+    // record details of email sent in database
     let newDataEntry = new emailInteractionDataModel({
       email: recipient_email,
       unique_id: uniqueId,
       campaign_id: campaignId,
-      email_opened: false,
       links_in_email: [...links_in_email],
     });
 
     await newDataEntry.save();
-    // if (!emailOpenRecords.has(uniqueId)) {
-    //   emailOpenRecords.set(uniqueId, {
-    //     recipient_email: recipient_email,
-    //     email_opened: false,
-    //     campaign_id: campaignId,
-    //     links_in_email: links_in_email,
-    //   });
-    // }
     res.status(200).send("Email sent successfully");
   } catch (error) {
     // handle error
     console.log(error);
     res.status(500).send("Sending email failed");
   }
+});
+
+// check email with specific id has been opened by specific user
+emailOpenTrackingRouter.get("/email_opened/:uniqueId", async (req, res) => {
+  try {
+    res.sendFile(path.join(__dirname, "../tracker.jpg"));
+
+    let uniqueId = decodeURI(req.params?.uniqueId);
+    console.log(`Email opened. Unique id: ${uniqueId}`);
+
+    let email_entry_with_current_id = await emailInteractionDataModel.findOne({
+      unique_id: uniqueId,
+    });
+    email_entry_with_current_id.email_opened = true;
+    email_entry_with_current_id.email_open_time = Date.now();
+
+    await email_entry_with_current_id.save();
+
+    res.end();
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+// check status of all emails sent
+emailOpenTrackingRouter.get("/check/all", async (req, res) => {
+  let responseArray = [];
+
+  responseArray = await emailInteractionDataModel.find();
+
+  // Send API response.
+  res.json(responseArray);
 });
 
 module.exports = emailOpenTrackingRouter;

@@ -1,6 +1,5 @@
 const apiBaseUrl = "https://gmail.googleapis.com";
 const backendServiceUrl = "https://serveimage.onrender.com";
-// const backendServiceUrl = "https://localhost:5000";
 let userId = "me";
 
 async function sendEmail(targetEmail, token, uniqueId, urls) {
@@ -28,9 +27,7 @@ Content-Type: text/html; charset=UTF-8
     (urls.length > 0
       ? urls?.map((url) => {
           return `<div>
-            <a href="${backendServiceUrl}/record_click/${uniqueId}/${encodeURIComponent(
-            url
-          )}">${url}</a>
+            <a href="${backendServiceUrl}/record_click/${uniqueId}">${url}</a>
         </div>`;
         })
       : "") +
