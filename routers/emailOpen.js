@@ -33,12 +33,11 @@ emailOpenTrackingRouter.post("/record_email_send", async (req, res) => {
       uniqueId,
       reqBody?.links_in_email
     );
-    res.status(200).send("Email sent successfully");
 
     // record details of email sent
     let newDataEntry = new emailInteractionDataModel({
       email: recipient_email,
-      id: uniqueId,
+      unique_id: uniqueId,
       campaign_id: campaignId,
       email_opened: false,
       links_in_email: [...links_in_email],
@@ -53,6 +52,7 @@ emailOpenTrackingRouter.post("/record_email_send", async (req, res) => {
     //     links_in_email: links_in_email,
     //   });
     // }
+    res.status(200).send("Email sent successfully");
   } catch (error) {
     // handle error
     console.log(error);

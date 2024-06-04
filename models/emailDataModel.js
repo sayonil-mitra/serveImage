@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 let emailInteractionDataSchema = mongoose.Schema({
   email: String,
-  id: String,
+  unique_id: String,
   campaign_id: String,
   email_opened: Boolean,
   links_in_email: [
@@ -14,7 +14,7 @@ let emailInteractionDataSchema = mongoose.Schema({
 });
 
 let emailInteractionDataModel = mongoose.model(
-  "email_interactions",
+  "Email_interactions",
   emailInteractionDataSchema
 );
 

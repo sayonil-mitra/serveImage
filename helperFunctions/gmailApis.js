@@ -5,7 +5,7 @@ let userId = "me";
 
 async function sendEmail(targetEmail, token, uniqueId, urls) {
   let accessToken = token;
-  console.log(urls);
+  console.log("Request for sending email received for unique id: ", uniqueId);
 
   // forming the http request for gmail api call
   let requestHeader = {
