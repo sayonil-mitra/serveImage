@@ -3,6 +3,7 @@ const path = require("path");
 const cors = require("cors");
 const { sendEmail } = require("./gmailApis");
 const { ensureAccessToken } = require("./generateToken");
+const { v4: uuidv4 } = require("uuid");
 
 const app = express();
 const port = 5000;
@@ -35,7 +36,7 @@ app.post("/record_email_send", async (req, res) => {
   // parsing request body
   let reqBody = req?.body;
   let recipient_email = reqBody?.recipient_email;
-  let uniqueId = reqBody?.unique_id;
+  let uniqueId = uuidv4();
   let campaignId = reqBody?.campaign_id;
   let links_in_email = reqBody?.links_in_email?.map((item) => {
     return {
@@ -47,22 +48,29 @@ app.post("/record_email_send", async (req, res) => {
   // get token
   let access_token = await ensureAccessToken();
 
-  // sendingn email via gmail api
-  await sendEmail(
-    recipient_email,
-    access_token,
-    uniqueId,
-    campaignId,
-    links_in_email
-  );
+  try {
+    // sendingn email via gmail api
+    await sendEmail(
+      recipient_email,
+      access_token,
+      uniqueId,
+      reqBody?.links_in_email
+    );
+    res.status(200).send("Email sent successfully");
 
-  if (!emailOpenRecords.has(uniqueId)) {
-    emailOpenRecords.set(uniqueId, {
-      recipient_email: recipient_email,
-      email_opened: false,
-      campaign_id: campaignId,
-      links_in_email: links_in_email,
-    });
+    // record details of email sent
+    if (!emailOpenRecords.has(uniqueId)) {
+      emailOpenRecords.set(uniqueId, {
+        recipient_email: recipient_email,
+        email_opened: false,
+        campaign_id: campaignId,
+        links_in_email: links_in_email,
+      });
+    }
+  } catch (error) {
+    // handle error
+    console.log(error);
+    res.status(500).send("Sending email failed");
   }
 });
 
