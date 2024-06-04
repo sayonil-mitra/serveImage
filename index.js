@@ -1,12 +1,13 @@
 const express = require("express");
 const path = require("path");
 const cors = require("cors");
-const { sendEmail } = require("./gmailApis");
-const { ensureAccessToken } = require("./generateToken");
-const { v4: uuidv4 } = require("uuid");
+const mongoose = require("mongoose");
+
+const emailOpenTrackingRouter = require("./routers/emailOpen");
 
 const app = express();
 const port = 5000;
+
 const emailOpenRecords = new Map();
 
 // {
@@ -23,6 +24,7 @@ const emailOpenRecords = new Map();
 
 app.use(cors());
 app.use(express.json());
+app.use(emailOpenTrackingRouter);
 // Middleware to serve static files from the current directory
 app.use(express.static(__dirname));
 
@@ -30,50 +32,6 @@ app.use(express.static(__dirname));
 app.get("/image", (req, res) => {
   res.sendFile(path.join(__dirname, "tracker.jpg"));
 });
-
-// Record which email has been sent.
-app.post("/record_email_send", async (req, res) => {
-  // parsing request body
-  let reqBody = req?.body;
-  let recipient_email = reqBody?.recipient_email;
-  let uniqueId = uuidv4();
-  let campaignId = reqBody?.campaign_id;
-  let links_in_email = reqBody?.links_in_email?.map((item) => {
-    return {
-      url: item,
-      clicked: false,
-    };
-  });
-
-  // get token
-  let access_token = await ensureAccessToken();
-
-  try {
-    // sendingn email via gmail api
-    await sendEmail(
-      recipient_email,
-      access_token,
-      uniqueId,
-      reqBody?.links_in_email
-    );
-    res.status(200).send("Email sent successfully");
-
-    // record details of email sent
-    if (!emailOpenRecords.has(uniqueId)) {
-      emailOpenRecords.set(uniqueId, {
-        recipient_email: recipient_email,
-        email_opened: false,
-        campaign_id: campaignId,
-        links_in_email: links_in_email,
-      });
-    }
-  } catch (error) {
-    // handle error
-    console.log(error);
-    res.status(500).send("Sending email failed");
-  }
-});
-
 // check email with specific id has been opened by specific user
 app.get("/email_opened/:uniqueId/:recipient_email", (req, res) => {
   let uniqueId = decodeURI(req.params?.uniqueId);
@@ -140,5 +98,12 @@ app.get("/check/open", (req, res) => {
   // Send API response.
   res.json(responseArray);
 });
+
+// connect with database
+try {
+  mongoose.connect(process.env.DATABASE_URL);
+} catch (error) {
+  console.log(error);
+}
 
 app.listen(port, () => console.log("backend running on port:", port));
