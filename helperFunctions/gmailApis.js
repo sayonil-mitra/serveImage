@@ -27,7 +27,9 @@ Content-Type: text/html; charset=UTF-8
     (urls.length > 0
       ? urls?.map((url) => {
           return `<div>
-            <a href="${backendServiceUrl}/record_click/${uniqueId}">${url}</a>
+            <a href="${backendServiceUrl}/record_click/${uniqueId}/${encodeURIComponent(
+            url
+          )}">${url}</a>
         </div>`;
         })
       : "") +
