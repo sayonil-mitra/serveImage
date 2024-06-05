@@ -5,16 +5,16 @@ const mongoose = require("mongoose");
 
 const emailOpenTrackingRouter = require("./routers/emailOpen");
 const emailClickTrackingRouter = require("./routers/emailClick");
+const complexQueriesRouter = require("./routers/complexQueries");
 
 const app = express();
 const port = 5000;
-
-const emailOpenRecords = new Map();
 
 app.use(cors());
 app.use(express.json());
 app.use(emailOpenTrackingRouter);
 app.use(emailClickTrackingRouter);
+app.use(complexQueriesRouter);
 // Middleware to serve static files from the current directory
 app.use(express.static(__dirname));
 
