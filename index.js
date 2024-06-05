@@ -19,8 +19,8 @@ app.use(emailClickTrackingRouter);
 app.use(express.static(__dirname));
 
 // serve static image
-app.get("/image", (req, res) => {
-  res.sendFile(path.join(__dirname, "tracker.jpg"));
+app.get("/test", (req, res) => {
+  res.end("Backend service running");
 });
 
 // connect with database
