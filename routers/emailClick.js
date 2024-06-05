@@ -11,16 +11,20 @@ emailClickTrackingRouter.get(
   async (req, res) => {
     let uniqueId = decodeURI(req.params?.Id);
     let clickable_link = decodeURIComponent(req.params?.clickable_link);
-
+    console.log(
+      `Click on link: ${clickable_link} or Email with uniqueId: ${uniqueId}`
+    );
     let email_data_entry = await emailInteractionDataModel.findOne({
       unique_id: uniqueId,
     });
 
-    email_data_entry.links_in_email.map((item) => {
+    let temp = email_data_entry.links_in_email.map((item) => {
       if (item.url === clickable_link) {
         item.clicked = true;
       }
     });
+
+    email_data_entry.links_in_email = [...temp];
 
     await email_data_entry.save();
     res.redirect(clickable_link);
