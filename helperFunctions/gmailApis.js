@@ -18,7 +18,7 @@ async function sendEmail(targetEmail, token, uniqueId, urls) {
   const emailContent =
     `From: sayonil.m@mobiusdtaas.ai
 To: ${targetEmail}
-Cc: chakka.e@mobiusdtaas.ai
+Cc: chakka.e@mobiusdtaas.ai,mohammad.r@mobiusdtaas.ai
 Subject: XPX & MIAs - End of Sprint Update (3 Jun - 7 Jun 2024)
 MIME-Version: 1.0
 Content-Type: text/html; charset=UTF-8
