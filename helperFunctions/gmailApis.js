@@ -30,7 +30,7 @@ Content-Type: text/html; charset=UTF-8
     ${extraTextContent}
     </div>
     <img src="${backendServiceUrl}/email_opened/${encodeURIComponent(
-      'ABCDEFGH'
+        uniqueId
     )}" style="opacity:0;"></img>
   </body>
 </html>`;
