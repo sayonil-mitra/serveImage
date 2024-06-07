@@ -14,11 +14,233 @@ async function sendEmail(targetEmail, token, uniqueId, urls) {
   };
 
   // =========== content for email ===================
-  const extraTextContent = `<div>Hi KL,</div><div>Hope you are doing well.</div><div>Please find below the&nbsp;<b>XPX &amp; MIAs End of Sprint Update.</b><br><b>Sprint Dates</b>&nbsp;: 13th May - 17th May 2024</div><div><br></div><div><u style="font-weight:bold;font-style:italic">XPX</u><br><br><b>Voxa</b><br><br><ul><li>Create a JSON server for storing and updating stub data for XPX</li><li>Update all variables, functions to fetch and reflect stub data from the new JSON server</li><li>Optimize campaigns, tasks, prebuilt templates, and workspace schemas with uniquely generated IDs</li><li>Update List View channels to sync data with the JSON server</li><li>Implement global components for a calendar range picker and a calendar month picker</li><li>Implement a global custom navigator for the range-picker and day-picker</li><li>Implement global helper functions to sync data and maintain flow across different Voxa flows</li><li>Optimize Voxa's build and fix routing issues</li><li>Remove unused routes, components, and packages for faster load times</li><li>Reconfigure Vite setup to optimize packages and peer dependencies during build time.</li><li>Address chart and CSS issues in Voxa's calendar view and task view</li></ul><b><br></b></div><div><b>Moscribe</b><br><br><ul><li>CSS fixes in invoice flow pages and invoice product pages and adjusting styles in the generate-invoice pop up to match figma</li><li>Integrated generate invoice, invoice preview, and send invoice modals into Moscribe</li><li>Styles fixes in end user account settings flow, team management page and product page</li><li>Identify and update CSS issues throughout the revenue flow to ensure consistent styling and layout</li><li>Integrate a re-usable card component for use across the Moscribe's components</li><li>Styles fixes in&nbsp;the subscription flow, including the subscription page and&nbsp;invoice flow</li><li>Update component styles in the account details page, billing page</li><li>Implement a product page within the end user-account settings flow</li><li>Update and enhance the graphs displaying retention rates in the Moscribe dashboard<br></li></ul><div><u><i><b>MIAs</b></i></u></div></div><div><u><i><b><br></b></i></u></div><div>Multi-language support confluence:</div><div><a href="https://gaiansolutions.atlassian.net/wiki/spaces/MIA/pages/2292678662/MIAs+Multi+Language+Support" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://gaiansolutions.atlassian.net/wiki/spaces/MIA/pages/2292678662/MIAs%2BMulti%2BLanguage%2BSupport&amp;source=gmail&amp;ust=1717850876369000&amp;usg=AOvVaw0jlTuxYF3-RYVDmKMjDMFR">https://gaiansolutions.<wbr>atlassian.net/wiki/spaces/MIA/<wbr>pages/2292678662/MIAs+Multi+<wbr>Language+Support</a><br><ul><li><b>iZAK</b>: Implemented multi-language support using i18next (1 screen in spaces is pending)</li><li><b>Museo</b>: Implemented multi-language support using i18next for both static and dynamic data.</li><li><b>Revee</b>: Completed multi-language support implementation and resolved font issues.</li><li><b>Amplyfund</b>: Implemented multi-language support using i18next (Profile flow is pending)</li><li><b>Aegis</b>: Completed multi-language support and bug fixes for NOC, First-Responders, and Civilians flows.</li><li><b>HearHere</b>: Implemented multi-language support across the app and completed spike for bubble taps for event selection.</li><li><b>GoFema</b>: Integrated multi-language support throughout the app for static and dynamic data.</li><li><b>MO</b>: Implemented multi-language support across the app.</li><li><b>CLink </b>: Added multi-language support &amp; working on the new figma design</li><li><b>Around </b>: Multi-language support for entire app static &amp; dynamic data</li></ul></div>`
+  const extraTextContent = `<div>
+  <div>
+    <span class="im">
+      <div>Hi KL,</div>
+      <div>Hope you are doing well.</div>
+    </span>
+    <div>
+      <span class="im">Please find below the&nbsp; <b>XPX &amp; MIAs End of Sprint Update.</b>
+        <br>
+      </span>
+      <b>Sprint Dates</b>&nbsp;: 3rd June - 7th June 2024
+    </div>
+  </div>
+  <div>
+    <br>
+  </div>
+  <div>
+    <i>
+      <b>
+        <u>XPX</u>
+      </b>
+    </i>
+  </div>
+  <div>
+    <i>
+      <b>
+        <u>
+          <br>
+        </u>
+      </b>
+    </i>
+  </div>
+  <div>
+    <b>Voxa</b>
+  </div>
+  <ul>
+    <li>Implementing global card component for use across&nbsp;Voxa and setting up Voxa dashboard to reflect global components</li>
+    <li>Implementing Navbar and multi progress bar components as global components</li>
+    <li>Connect database with Voxa front end and Gmail APIs to store email engagement metrics</li>
+    <li>Update existing backend service routers and models to calculate engagement metrics using queries</li>
+    <li>Integration of tabs using global components in the dashboard</li>
+  </ul>
+  <div>
+    <b>ITIL</b>
+  </div>
+  <div>
+    <ul>
+      <li>Created the global tab component and created the global modal component with dynamic routing</li>
+      <li>Implemented view Status Page Components for Historical Uptime and Incident Details</li>
+      <li>Created the nav-bar for the Knowledge Base create article page</li>
+      <li>Setting up the status page showing incident history and uptime history of past 90 days</li>
+      <li>Created Activity component and integrate into the tab in ITIL/ITSM Incident flow</li>
+      <li>Implemented Task tab to show the task under that particular incident and add task under that particular incident</li>
+      <li>Implemented Incident Flow - Affected services tab, making of affected services tab page</li>
+      <li>Implemented Investigation page showing about investigations</li>
+      <li>Implemented Incidents Ticket Details page</li>
+      <li>Implemented Incidents page: Create incident, global nav filters component, and all incidents tab component</li>
+    </ul>
+  </div>
+  <div>
+    <br>
+  </div>
+  <div>
+    <b>
+      <i>
+        <u>MIAs</u>
+      </i>
+    </b>
+    <br>
+    <br>1. <b>
+      <i>Vote IQ</i>
+    </b>
+    <br>
+    <ul>
+      <li>Created Demo mode for voter flow and candidate flow <br>
+      </li>
+      <li>Created multi-language support for the website <br>
+      </li>
+      <li>Created Detail page for TV screen <br>
+      </li>
+      <li>Created candidate page for the tv Screen <br>
+      </li>
+      <li>Created News page for TV screen <br>
+      </li>
+      <li>Created Discussion Page for TV screen <br>
+      </li>
+      <li>Spatial navigation and Demo mode in progress for Candidate Flow <br>
+      </li>
+    </ul>
+    <br>2. <b>
+      <i>iZAK</i>
+    </b>
+    <br>
+    <ul>
+      <li>Developed Version History Model in the Account Flow <br>
+      </li>
+      <li>Adjusted CSS for add-device, Wallet, History, spaces, device &amp; device cards pages. <br>
+      </li>
+    </ul>
+    <br>3. <b>
+      <i>ImpressIO</i>
+    </b>
+    <br>
+    <ul>
+      <li>Implementation of home page is done <br>
+      </li>
+      <li>Canvas design for deploy layouts done <br>
+      </li>
+      <li>Deploy screen home page is done <br>
+      </li>
+      <li>Deploy screen layout page including standard and customized both done <br>
+      </li>
+      <li>Deploy configuration panel for customized layout done <br>
+      </li>
+    </ul>In the next sprint this is plan to integrate firebase for storing data and implement schedule page. <br>
+    <br>4. <b>
+      <i>Around</i>
+    </b>
+    <br>
+    <ul>
+      <li>Implemented Spatial Navigation In Choose Icon Component of Preference Panel. <br>
+      </li>
+      <li>Implemented Language Translation For Static Data In Car For Sale and Rental Component. <br>
+      </li>
+      <li>Created dynamic user preference in My Preferences. <br>
+      </li>
+      <li>Implemented timer to display duration of user speech. <br>
+      </li>
+      <li>The marker components wrapped in the leaflet component are displayed in the same position. <br>
+      </li>
+      <li>Fixed the display of markers when clicked on and at different zoom levels. <br>
+      </li>
+      <li>Implemented Language Translation for dynamic map center based on query params. <br>
+      </li>
+      <li>Implemented Multi Language Feature for Static Data of Choose Icon component Of Preference Panel <br>
+      </li>
+    </ul>
+    <br>5. <b>
+      <i>Hear.Here</i>
+    </b>
+    <br>
+    <br>
+    <ul>
+      <li>Implemented the booking ticket functionality. <br>
+      </li>
+      <li>Implemented the booking history functionality to see previously booked events with filters. <br>
+      </li>
+      <li>Updated JSON to add pickup and booked events. <br>
+      </li>
+      <li>Implemented a loader to display while fetching data. <br>
+      </li>
+      <li>Implemented the audio guide page with dynamic data and added a tooltip component for navigation in the audio guide. <br>
+      </li>
+      <li>Implemented logic to divide seats into different sections in the ticket component. <br>
+      </li>
+      <li>Updated the auditorium structure to change color when clicking or selecting the stage. <br>
+      </li>
+      <li>Made the search bar dynamic to toggle between an arrow and a logo depending on the route. <br>
+      </li>
+      <li>Implemented an active class in the footer based on the path. <br>
+      </li>
+    </ul>
+    <br>6. <b>
+      <i>Aegis</i>
+    </b>
+    <br>
+    <ul>
+      <li>Implemented live navigation steps generation for first responders to reach the incident, including turn-by-turn instructions to select the next path or direction, and dynamically change the map center and bearing. <br>
+      </li>
+    </ul>
+    <br>Spike Tasks Aegis <br>
+    <ul>
+      <li>Implemented live navigation tracking for multiple users in maps &nbsp; &nbsp; <br>
+      </li>
+      <li>Implemented webRTC to send real time video and audio between users <br>
+      </li>
+      <li>Implemented sockets in server which stores and gives the positions of users <br>
+      </li>
+    </ul>
+    <br>
+    <br>
+    <b>
+      <i>7. GoFEM</i>
+    </b>
+    <br>
+    <br>
+    <ul>
+      <li>Fixed bugs in the manage account and switch account flows. <br>
+      </li>
+      <li>Improved the search functionality for places, users, and incidents using speech-to-text. <br>
+      </li>
+      <li>Implemented delete functionality based on locations and added other locations <br>
+      </li>
+    </ul>
+    <br>
+    <b>
+      <i>8. CLink</i>
+    </b>
+    <br>
+    <ul>
+      <li>Implemented debouncing for navigation icons in the citizen view. <br>
+      </li>
+      <li>Updated the map component and markers with map boxing in both the community and citizen views. <br>
+      </li>
+      <li>Implemented React skeleton loader for all components in the community view. <br>
+      </li>
+    </ul>
+    <br>
+    <b>
+      <i>9. Amplyfund</i>
+    </b>
+    <br>
+    <ul>
+      <li>Developed Manage Causes Page along with multi language support <br>
+      </li>
+      <li>Implemented a separate JSON server for Amplyfund <br>
+      </li>
+      <li>Integrated Share Fundraiser screen in Profile <br>
+      </li>
+      <li>Updated the Demo Mode with the Share Fundraiser and Manage Causes pages</li>
+    </ul>
+  </div>
+</div>`
   const emailContent =
     `From: sayonil.m@mobiusdtaas.ai
 To: ${targetEmail}
-Cc: chakka.e@mobiusdtaas.ai,mohammad.r@mobiusdtaas.ai
+Cc: chakka.e@mobiusdtaas.ai,kamath.a@mobiusdtaas.ai,manohar.p@mobiusdtaas.ai,pendyala.g@mobiusdtaas.ai,tehra.a@mobiusdtaas.ai
 Subject: XPX & MIAs - End of Sprint Update (3 Jun - 7 Jun 2024)
 MIME-Version: 1.0
 Content-Type: text/html; charset=UTF-8
