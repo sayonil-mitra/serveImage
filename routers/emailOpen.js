@@ -16,12 +16,13 @@ emailOpenTrackingRouter.post("/record_email_send", async (req, res) => {
   let recipient_email = reqBody?.recipient_email;
   let uniqueId = uuidv4();
   let campaignId = reqBody?.campaign_id;
-  let links_in_email = reqBody?.links_in_email?.map((item) => {
-    return {
-      url: item,
-      clicked: false,
-    };
-  });
+//   let links_in_email = reqBody?.links_in_email?.map((item) => {
+//     return {
+//       url: item,
+//       clicked: false,
+//     };
+//   });
+  let links_in_email = []
 
   // get token
   let access_token = await ensureAccessToken();
