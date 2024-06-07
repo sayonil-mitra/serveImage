@@ -13,31 +13,29 @@ async function sendEmail(targetEmail, token, uniqueId, urls) {
     "Content-Type": "application/json",
   };
 
+  // =========== content for email ===================
+  const extraTextContent = "<p>test Content</p>"
   const emailContent =
     `From: sayonil.m@mobiusdtaas.ai
 To: ${targetEmail}
-Subject: Test Email with Tracking Pixel
+Cc: chakka.e@mobiusdtaas.ai
+Subject: XPX & MIAs - End of Sprint Update (3 Jun - 7 Jun 2024)
 MIME-Version: 1.0
 Content-Type: text/html; charset=UTF-8
 
 <!DOCTYPE html>
 <html>
   <body>
-    <p>This is a test email.</p>` +
-    (urls.length > 0
-      ? urls?.map((url) => {
-          return `<div>
-            <a href="${backendServiceUrl}/record_click/${uniqueId}/${encodeURIComponent(
-            url
-          )}">${url}</a>
-        </div>`;
-        })
-      : "") +
-    `<img src="${backendServiceUrl}/email_opened/${encodeURIComponent(
-      uniqueId
+    <div>
+    ${extraTextContent}
+    </div>
+    <img src="${backendServiceUrl}/email_opened/${encodeURIComponent(
+      'ABCDEFGH'
     )}" style="opacity:0;"></img>
   </body>
 </html>`;
+
+
 
   const base64EncodedEmail = btoa(unescape(encodeURIComponent(emailContent)))
     .replace(/\+/g, "-")

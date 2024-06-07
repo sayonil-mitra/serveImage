@@ -5,7 +5,7 @@ let emailInteractionDataSchema = mongoose.Schema({
   unique_id: String,
   campaign_id: String,
   email_opened: { type: Boolean, default: false },
-  email_open_time: { type: String, default: "" },
+  email_open_time: [{ type: String }],
   links_in_email: [
     {
       url: String,

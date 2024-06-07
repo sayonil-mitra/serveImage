@@ -65,9 +65,10 @@ emailOpenTrackingRouter.get("/email_opened/:uniqueId", async (req, res) => {
     });
     email_entry_with_current_id.email_opened = true;
     // update email open time only for the first tiome email was opened
-    if (email_entry_with_current_id.email_open_time === "") {
-      email_entry_with_current_id.email_open_time = Date.now();
-    }
+    // if (email_entry_with_current_id.email_open_time === "") {
+    //   email_entry_with_current_id.email_open_time = Date.now();
+    // }
+    email_entry_with_current_id.email_open_time = [...email_entry_with_current_id.email_open_time, Date.now()]
 
     await email_entry_with_current_id.save();
 
