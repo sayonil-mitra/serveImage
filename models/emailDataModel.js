@@ -15,7 +15,7 @@ let emailInteractionDataSchema = mongoose.Schema({
 });
 
 let emailInteractionDataModel = mongoose.model(
-  "Email_interactions",
+  "Email_interactions_1",
   emailInteractionDataSchema
 );
 
